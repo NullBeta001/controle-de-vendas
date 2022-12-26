@@ -1,0 +1,58 @@
+<app-header [(filterValue)]="filterValue" (onTypeFilterEvent)="applyFilter()" [showfilterShowAll]="false"
+    [showfilterType]="false" [showfilterReseller]="false"></app-header>
+
+<app-form [(displayModal)]="displayNewModal" (closeEvent)="onDialogClose()" [customer]="editData!"></app-form>
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+<div class="body">
+    <p-card>
+        <p-table [value]="customerListFiltered" responsiveLayout="stack" >
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between">
+                    <span>Clientes</span>
+                    <span class="p-input-icon-left">
+                        <button type="button" pButton icon="pi pi-plus" label="Adicionar"
+                        (click)="displayNewModal = true"></button>
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    <th>E-mail</th>
+                    <th width="160px"></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-customer>
+                <tr>
+                    <td><span class="p-column-title">Nome</span>{{customer.name}}</td>
+                    <td><span class="p-column-title">Telefone</span>{{customer.phone}}</td>
+                    <td><span class="p-column-title">E-mail</span>{{customer.email}}</td>
+                    <td style="text-align: center;">
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="edit(customer)"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="delete(customer)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="flex align-items-center justify-content-between">
+                    Total de {{customerListFiltered ? customerListFiltered.length : 0 }} clientes.
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+                <tr *ngIf="!isLoading">
+                    <td [attr.colspan]="5" class="empty-table-message" style="text-align: center;">
+                        <h3>Não há clientes a serem exibidos!</h3>
+                    </td>
+                </tr>
+                <tr *ngIf="isLoading">
+                    <td colspan="5" style="text-align: center;">
+                        <p-progressSpinner></p-progressSpinner>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-card>
+</div>

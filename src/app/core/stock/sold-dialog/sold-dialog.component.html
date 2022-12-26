@@ -1,0 +1,98 @@
+<p-dialog [header]="header" [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
+    [resizable]="false" (onHide)="onClose()">
+
+    <div *ngIf="stepDialog == 1">
+
+        <p-table [value]="stockList" [dataKey]="'reference'">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-wrap">
+                    <span>Produtos Vendidos</span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Brinde</th>
+                    <th>Referência</th>
+                    <th>Descrição</th>
+                    <th>Valor</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-stockItem>
+                <tr>
+                    <td>
+                        <p-checkbox [(ngModel)]="stockItem.forGift" [binary]="true" (click)="calcTotal()"></p-checkbox>
+                    </td>
+                    <td>{{stockItem.product.reference}}</td>
+                    <td>{{stockItem.product.description}}</td>
+                    <td>{{stockItem.product.sellPrice | currency:'BRL':'R$'}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <div *ngIf="stepDialog == 2">
+        <div class="grid flex text-center mb-3">
+            <p-card header="Valor Venda" class="col-offset-3 col-6 flex text-center align-items-center">
+                <p>{{sellPrice | currency:'BRL':'R$'}}</p>
+            </p-card>
+            <p-card header="Valor Consignado" class="col-offset-3 col-6 flex text-center"
+                *ngIf="saleType == 'CONSIGNED'">
+                <p>{{consignedPrice | currency:'BRL':'R$'}}</p>
+            </p-card>
+            <p-card header="Valor Vendedoras" class="col-offset-3 col-6 flex text-center" *ngIf="saleType == 'SELLER'">
+                <p>{{sellerPrice | currency:'BRL':'R$'}}</p>
+            </p-card>
+            <p-card header="Valor Atacado" class="col-offset-1 col-5 flex text-center" *ngIf="saleType == 'WHOLESALE'">
+                <p>{{wholeSalePrice | currency:'BRL':'R$'}}</p>
+            </p-card>
+            <p-card header="Valor Atacado (>1500)" class="col-5 flex text-center" *ngIf="saleType == 'WHOLESALE'">
+                <p>{{wholeSalePrice1500 | currency:'BRL':'R$'}}</p>
+            </p-card>
+        </div>
+
+        <form [formGroup]="form">
+            <div class="grid flex text-center mb-3">
+                <div class="col-4 flex">
+                    <p-autoComplete [suggestions]="customerSuggestion" formControlName="selectedCustomer" field="name"
+                        [dropdown]="true" (completeMethod)="onSearchCustomer($event)" [forceSelection]="true"
+                        [showEmptyMessage]="true" appendTo="body">
+                        <!--
+                        <ng-template pTemplate="empty">
+                            <div style="height: 20px; width: 100%; cursor: pointer;" (click)="showModalCustomer()">
+                                <button pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-primary"
+                                    style="width: 20px; height: 20px;"></button>
+                                <span style="margin-left: 7px; padding-top: -15px;">Adicionar Cliente</span>
+                            </div>
+                        </ng-template>
+                        -->
+                    </p-autoComplete>
+                </div>
+                <div class="col-4 flex text-center align-items-center">
+                    <span class="p-input-icon-right" style="width: 100%">
+                        <i>%</i>
+                        <input type="number" pInputText formControlName="discount" (change)="inputDiscount()" min="0" />
+                    </span>
+                </div>
+                <div class="col-4 flex text-center align-items-center">
+                    <p-calendar formControlName="saleDate" dateFormat="dd/mm/yy" appendTo="body"></p-calendar>
+                </div>
+
+            </div>
+        </form>
+
+
+    </div>
+
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" type="button" label="Cancelar" class="p-button-danger p-button-text"
+            (click)="displayModal=false"></button>
+        <button pButton pRipple icon="pi pi-check" type="button" label="Avançar" class="p-button-outlined"
+            (click)="stepDialog = stepDialog + 1" *ngIf="stepDialog == 1"></button>
+        <button pButton pRipple icon="pi pi-check" type="button" label="Voltar"
+            class="p-button-warning p-button-outlined" (click)="stepDialog = stepDialog - 1"
+            *ngIf="stepDialog == 2"></button>
+        <button pButton pRipple icon="pi pi-check" type="button" label="Finalizar" class="p-button-outlined"
+            (click)="onSave()" *ngIf="stepDialog == 2"></button>
+    </ng-template>
+</p-dialog>

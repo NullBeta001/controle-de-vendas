@@ -1,0 +1,40 @@
+<div class="grid flex text-center mb-3" *ngIf="showTitle">
+    <div class="col-12">
+        <h2>{{ title }}</h2>
+    </div>
+</div>
+
+<p-sidebar [(visible)]="showMenu" [baseZIndex]="10000">
+
+    <button [style]="{'width':'100%'}" pButton pRipple type="button" label="Estoque" class="p-button-text"
+        routerLink="/stock" (click)="showMenu = false" icon="fa-solid fa-boxes-stacked"></button>
+    <button [style]="{'width':'100%'}" pButton pRipple type="button" label="Vendas" class="p-button-text"
+        routerLink="/sales" (click)="showMenu = false" icon="fa-solid fa-cash-register"></button>
+    <button [style]="{'width':'100%'}" pButton pRipple type="button" label="Vendas 2" class="p-button-text"
+        routerLink="/sales2" (click)="showMenu = false" icon="fa-solid fa-cash-register"></button>
+    <button [style]="{'width':'100%'}" pButton pRipple type="button" label="Clientes" class="p-button-text"
+        routerLink="/customer" (click)="showMenu = false" icon="fa-solid fa-users"></button>
+    <button [style]="{'width':'100%'}" pButton pRipple type="button" label="Importar" class="p-button-text"
+        routerLink="/import" (click)="showMenu = false" icon="fa-solid fa-file-import"></button>
+
+    <hr>
+    <button [style]="{'width':'100%'}" pButton pRipple type="button" label="Sair" class="p-button-text p-button-danger"
+        (click)="showMenu = false; onLoggedout()" icon="fa-solid fa-right-from-bracket"></button>
+</p-sidebar>
+
+<div class="menu-icon">
+    <i class="fa-solid fa-bars" (click)="showMenu = true"></i>
+</div>
+<div class="header" *ngIf="showFilters">
+    <span class="p-input-icon-right mr-10">
+        <i class="pi pi-search"></i>
+        <input type="text" pInputText (input)="onTypeFilter($event.target)" [(ngModel)]="filterValue" />
+    </span>
+    <p-multiSelect class="mr-10" [options]="typies" [(ngModel)]="filterSelectedType" [filter]="false"
+        [showToggleAll]="false" [showHeader]="false" (onChange)="selectType()" *ngIf="showfilterType"></p-multiSelect>
+    <p-dropdown class="mr-10" [options]="resellers" [(ngModel)]="selectedReseller" (onChange)="selectReseller()"
+        *ngIf="showfilterReseller">
+    </p-dropdown>
+    <p-checkbox [(ngModel)]="filterShowAll" [binary]="true" label="Mostrar Todos" *ngIf="showfilterShowAll">
+    </p-checkbox>
+</div>

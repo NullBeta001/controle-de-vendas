@@ -1,0 +1,6 @@
+export const SELL_TYPE = {
+    NORMAL: 'NORMAL',
+    CONSIGNED: 'CONSIGNED',
+    SELLER: 'SELLER',
+    WHOLESALE: 'WHOLESALE'
+};

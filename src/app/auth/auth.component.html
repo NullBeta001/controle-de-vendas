@@ -1,0 +1,47 @@
+<div class="flex justify-content-center">
+  <div style="width: 100%; max-width: 550px;">
+    <p-card>
+      <div class="flex justify-content-center">
+        <img src="../../assets/image/logo.webp" alt="logo"
+          style="max-width: 300px;">
+      </div>
+      <form [formGroup]="form">
+        <div class="flex justify-content-center" *ngIf="!isLoading">
+          <div class="grid" style="width: 100%; max-width: 450px;">
+            <div class="col-12">
+              <label for="email" class="block">Usuário</label>
+              <input id="email" type="email" aria-describedby="email-help" formControlName="email" required
+                [ngClass]="{'ng-invalid ng-dirty': (form.controls.email.touched && form.controls.email.errors?.['required']) || form.controls.email.errors?.['email']}"
+                pInputText style="width: 100%;" />
+              <small *ngIf="form.controls.email.touched && form.controls.email.errors?.['required']" id="username2-help"
+                class="p-error block">Campo obrigatório</small>
+              <small *ngIf="form.controls.email.errors?.['email']" id="username2-help" class="p-error block">Digite um
+                e-mail válido</small>
+            </div>
+            <div class="col-12">
+              <label for="password" class="block">Senha</label>
+              <p-password id="password" formControlName="password" aria-describedby="password-help"
+                [ngClass]="{'ng-invalid ng-dirty': (form.controls.password.touched && form.controls.password.errors?.['required']) || form.controls.password.errors?.['password']}"
+                styleClass="p-password p-component p-inputwrapper p-input-icon-right" [feedback]="false"
+                [toggleMask]="true">
+              </p-password>
+              <small *ngIf="form.controls.password.touched && form.controls.password.errors?.['required']"
+                id="username2-help" class="p-error block">Campo obrigatório</small>
+            </div>
+            <div class="col-12">
+              <button pButton pRipple type="button" label="Entrar" (click)="onLogin()" style="width: 100%;"
+                [disabled]="!form.valid"></button>
+            </div>
+            <div class="py-0 col-12">
+              <a style="cursor: pointer; color: #0000EE; text-decoration: underline; font-size: small;"
+                (click)="onForgetPassword()">Esqueci a senha.</a>
+            </div>
+            <div class="mt-4 py-0 col-12">
+              Não possui cadastro? <a routerLink="register">Clique aqui!</a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </p-card>
+  </div>
+</div>

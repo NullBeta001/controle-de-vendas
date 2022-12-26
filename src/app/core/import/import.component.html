@@ -1,0 +1,97 @@
+<app-header title="Importação de produtos" [showTitle]="true" [showFilters]="false"></app-header>
+
+<div class="card-welcome" *ngIf="step == 1">
+    <div class="welcome">
+        <h1>Bem-vindo ao assistente de importação.</h1>
+        <h2>Para iniciar, clique no botão SELECIONAR abaixo para carregarmos o arquivo com os produtos e estoque.</h2>
+        <p-fileUpload #fubauto mode="basic" name="demo[]" accept=".xlsx" [maxFileSize]="3000000"
+            (onSelect)="onUpload($event)" [auto]="true" chooseLabel="Selecionar"></p-fileUpload>
+    </div>
+</div>
+
+<div *ngIf="step == 2">
+    <p-card>
+        <div class="flex align-items-center justify-content-between">
+            <button type="button" pButton icon="fa-solid fa-chevron-left" label="Voltar" class="p-button-secondary"
+                (click)="step = step - 1"></button>
+            <div class="field">
+                <label for="edtDiscount" class="block">Desconto no Pagamento</label>
+                <span class="p-input-icon-right">
+                    <i>%</i>
+                    <input id="edtDiscount" type="number" pInputText [(ngModel)]="discount" (change)="inputDiscount()"
+                        min="0" />
+                </span>
+            </div>
+            <div class="field">
+                <label for="edtProfit" class="block">Percentual de Lucro</label>
+                <span class="p-input-icon-right">
+                    <i>%</i>
+                    <input id="edtProfit" type="number" pInputText [(ngModel)]="profit" (change)="inputProfit()"
+                        min="0" />
+                </span>
+            </div>
+            <span class="p-input-icon-left">
+                <button type="button" pButton icon="fa-solid fa-chevron-right" iconPos="right" label="Avançar" (click)="step = step + 1"></button>
+            </span>
+        </div>
+        <p-table [value]="products" [dataKey]="'code'" dataKey="code">
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between">
+                    <span>Produtos importados</span>
+                </div>
+
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Referência</th>
+                    <th>Descrição</th>
+                    <th>Quantidade</th>
+                    <th>Preço (UN)</th>
+                    <th>Preço (UN) com Desconto</th>
+                    <th>Preço Venda</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product>
+                <tr>
+                    <td>{{product.reference }}</td>
+                    <td>{{product.description }}</td>
+                    <td>{{product.amount }}</td>
+                    <td>{{product.originalPrice | currency:'BRL':'R$'}}</td>
+                    <td>{{product.paidPrice | currency:'BRL':'R$'}}</td>
+                    <td>{{product.sellPrice | currency:'BRL':'R$'}}</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="flex align-items-center justify-content-between">
+                    Total de {{products ? products.length : 0 }} produtos.
+                </div>
+            </ng-template>
+        </p-table>
+    </p-card>
+</div>
+
+
+<div *ngIf="step == 3">
+    <p-card>
+        <div class="flex align-items-center justify-content-between">
+            <button type="button" pButton icon="fa-solid fa-chevron-left" label="Voltar" class="p-button-secondary"
+                (click)="step = step - 1"></button>
+            <span class="p-input-icon-left">
+                <button type="button" pButton icon="fa-solid fa-check" iconPos="right" label="Finalizar" (click)="saveProduct()"></button>
+            </span>
+        </div>
+
+        
+        <div class="grid flex ">
+            <p-card header="Valor Total" class="col-offset-1 col-3" styleClass="totalValue">
+                <h1>{{totalValue | currency:'BRL':'R$'}}</h1>
+            </p-card>
+            <p-card header="Valor Com Desconto" class="col-4" styleClass="totalValueDiscount">
+                <h1>{{totalValueDiscount | currency:'BRL':'R$'}}</h1>
+            </p-card>
+            <p-card header="Valor Total Venda" class="col-3" styleClass="totalValueProfit">
+                <h1>{{totalValueProfit | currency:'BRL':'R$'}}</h1>
+            </p-card>
+        </div>
+    </p-card>
+</div>

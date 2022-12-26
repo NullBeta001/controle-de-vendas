@@ -1,0 +1,30 @@
+:host {
+    ::ng-deep .p-card .p-card-title {
+        font-size: 17px !important;
+    }
+
+    ::ng-deep .p-card .p-card-content {
+        padding: 0px;
+        font-size: 15px !important;
+    }
+    
+    ::ng-deep .p-card .p-card-content p {
+        margin: 0px;
+        font-weight: 600;
+    }
+
+    ::ng-deep p-card .p-component {
+        width: 100%;
+        background-color: rgb(236, 253, 226);
+        box-shadow: 3px 3px 20px #d6d6d6;
+    }
+
+    ::ng-deep .p-dropdown {
+        width: 100%;
+    }
+    
+    ::ng-deep .p-inputtext {
+        width: 100%;
+    }
+}
+

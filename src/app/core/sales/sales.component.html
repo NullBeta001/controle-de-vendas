@@ -1,0 +1,84 @@
+<app-header [(filterValue)]="filterValue" [(filterSelectedType)]="filterSelectedType"
+    [(selectedReseller)]="selectedReseller" [showfilterShowAll]="false" (onTypeFilterEvent)="applyFilter()"
+    (onSelectTypeEvent)="applyFilter()" (onSelectResellerEvent)="applyFilter()"></app-header>
+
+
+<div class="body">
+    <p-card>
+        <p-table [value]="salesFiltered" [dataKey]="'id'" dataKey="id" responsiveLayout="stack">
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between">
+                    <span>Itens Vendidos</span>
+                </div>
+
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 5rem"></th>
+                    <th style="width: 4rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th>Cliente</th>
+                    <th>Valor Total</th>
+                    <th>Desconto</th>
+                    <th>Data</th>
+                    <th>Revendedora</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-sale let-expanded="expanded">
+                <tr>
+                    <td>
+                        <button type="button" pButton pRipple [pRowToggler]="sale" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                    </td>
+                    <td>
+                        <p-tableCheckbox [value]="sale"></p-tableCheckbox>
+                    </td>
+                    <td><span class="p-column-title">Cliente</span>{{sale.customer.name}}</td>
+                    <td><span class="p-column-title">Valor</span>{{sale.totalValue | currency:'BRL':'R$'}}</td>
+                    <td><span class="p-column-title">Desconto</span>{{sale.discount}}%</td>
+                    <td><span class="p-column-title">Data</span>{{sale.date | date: 'dd/MM/yyyy' }}</td>
+                    <td><span class="p-column-title">Revendedora</span>{{sale.reseller?.name}}</td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="rowexpansion" let-sale>
+                <tr>
+                    <td colspan="7">
+                        <div class="p-3">
+                            <p-table [value]="sale.items" dataKey="id">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Referência</th>
+                                        <th>Descrição</th>
+                                        <th>Quantidade</th>
+                                        <th>Preço Un.</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-item>
+                                    <tr>
+                                        <td>{{item.product.reference}}</td>
+                                        <td>{{item.product.description}}</td>
+                                        <td>{{item.amount }}</td>
+                                        <td>{{item.product.sellPrice | currency:'BRL':'R$'}}</td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr>
+                                        <td colspan="6">There are no item for this sale yet.</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+
+
+            <ng-template pTemplate="summary">
+                <div class="flex align-items-center justify-content-between">
+                    Total de {{salesFiltered ? salesFiltered.length : 0 }} produtos.
+                </div>
+            </ng-template>
+        </p-table>
+    </p-card>
+</div>

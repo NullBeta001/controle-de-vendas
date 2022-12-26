@@ -1,0 +1,74 @@
+<app-move-dialog [stockList]="selectedStock" header="Movimentar Itens para" [(displayModal)]="displayMoveModal"
+    (closeEvent)="onMoveDialogClose()" [sellerData]="sellerMenuItemSelected"></app-move-dialog>
+<app-sold-dialog [stockList]="selectedStock"
+    [header]="'Lançar Venda' + (this.selectedReseller ? ' para vendedora ' + this.selectedResellerName : '')"
+    [(displayModal)]="displaySoldModal" (closeEvent)="onDialogClose()" [saleType]="saleType"></app-sold-dialog>
+<app-split-product [(displayModal)]="displaySplitProductModal" [produckStock]="selectedContextStock"
+    (closeEvent)="onSplitDialogClose()"></app-split-product>
+
+<app-header [(filterValue)]="filterValue" [(filterSelectedType)]="filterSelectedType"
+    [(selectedReseller)]="selectedReseller" [(filterShowAll)]="filterShowAll" (onTypeFilterEvent)="applyFilter()"
+    (onSelectTypeEvent)="applyFilter()" (onSelectResellerEvent)="selectReseller()"></app-header>
+
+<p-tieredMenu #menu [popup]="true" [model]="items"></p-tieredMenu>
+<p-contextMenu #actionMenu [model]="actionMenuitems"></p-contextMenu>
+
+<div class="body">
+    <p-card>
+        <p-table [value]="stockListFiltered" [(selection)]="selectedStock" dataKey="id" responsiveLayout="stack"
+            [(contextMenuSelection)]="selectedContextStock" [contextMenu]="actionMenu">
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between">
+                    <span>Produtos em Estoque</span>
+                    <span class="p-input-icon-left">
+                        <button type="button" pButton icon="pi pi-list" label="Opções"
+                            (click)="menu.toggle($event)"></button>
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 4rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th>Referência</th>
+                    <th>Descrição</th>
+                    <th>Qtd. Disponível</th>
+                    <th>Qtd. Total</th>
+                    <th>Valor</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-stockItem>
+                <tr [pContextMenuRow]="stockItem">
+                    <td>
+                        <p-tableCheckbox [value]="stockItem"></p-tableCheckbox>
+                    </td>
+                    <td><span class="p-column-title">Referência</span>{{stockItem.product.reference}}</td>
+                    <td><span class="p-column-title">Descrição</span>{{stockItem.product.description}}</td>
+                    <td><span class="p-column-title">Qtd. Disponível</span>{{stockItem.amount}}</td>
+                    <td><span class="p-column-title">Qtd. Total</span>{{stockItem.totalAmount}}</td>
+                    <td><span class="p-column-title">Valor</span>{{stockItem.product.sellPrice | currency:'BRL':'R$'}}
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="flex align-items-center justify-content-between">
+                    Total de {{stockListFiltered ? stockListFiltered.length : 0 }} produtos.
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+                <tr *ngIf="!isLoading">
+                    <td [attr.colspan]="5" class="empty-table-message" style="text-align: center;">
+                        <h3>Não há itens de estoque a serem exibidos!</h3>
+                    </td>
+                </tr>
+                <tr *ngIf="isLoading">
+                    <td colspan="5" style="text-align: center;">
+                        <p-progressSpinner></p-progressSpinner>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-card>
+</div>

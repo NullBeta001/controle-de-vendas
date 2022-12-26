@@ -1,0 +1,61 @@
+<p-dialog [header]="'Cliente'" [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
+    [resizable]="false" (onHide)="onClose()">
+
+    <ng-template pTemplate="content">
+        <form [formGroup]="form">
+            <div class="grid p-fluid">
+                <div class="col-6">
+                    <div class="field">
+                        <label for="edtName" class="block">Nome</label>
+                        <input id="edtName" pInputText formControlName="name"/>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="field">
+                        <label for="edtType" class="block">Tipo</label>
+                        <p-dropdown id="edtType" formControlName="person_type"
+                            [options]="[{label: 'Pessoa Física', value: 'PF'}, {label: 'Pessoa Jurídica', value: 'PJ'}]"
+                            appendTo="body"></p-dropdown>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="field">
+                        <label for="edtType" class="block">Celular</label>
+                        <p-inputMask mask="(99) 9 9999-9999" formControlName="phone"></p-inputMask>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="field">
+                        <label for="edtType" class="block">E-mail</label>
+                        <input id="edtName" pInputText formControlName="email"/>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="field">
+                        <label for="edtType" class="block">CPF</label>
+                        <p-inputMask mask="999.999.999-99" formControlName="document"></p-inputMask>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="field">
+                        <label for="edtType" class="block">Identidade</label>
+                        <input id="edtName" pInputText formControlName="documentId"/>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" type="button" label="Cancelar" class="p-button-danger p-button-text"
+            (click)="displayModal=false"></button>
+        <button pButton pRipple icon="pi pi-check" type="button" label="Salvar" class="p-button-outlined"
+            (click)="onSave()"></button>
+    </ng-template>
+</p-dialog>
