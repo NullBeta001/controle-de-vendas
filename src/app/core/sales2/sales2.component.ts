@@ -58,6 +58,5 @@ export class Sales2Component implements OnInit {
         this.salesFiltered = this.sales;
       });
   }
-
   applyFilter() {}
 }

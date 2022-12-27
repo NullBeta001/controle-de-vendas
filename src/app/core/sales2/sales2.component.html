@@ -1,41 +1,40 @@
 <app-header [(filterValue)]="filterValue" [(filterSelectedType)]="filterSelectedType"
-    [(selectedReseller)]="selectedReseller" [showfilterShowAll]="false" (onTypeFilterEvent)="applyFilter()"
-    (onSelectTypeEvent)="applyFilter()" (onSelectResellerEvent)="applyFilter()"></app-header>
-
+  [(selectedReseller)]="selectedReseller" [showfilterShowAll]="false" (onTypeFilterEvent)="applyFilter()"
+  (onSelectTypeEvent)="applyFilter()" (onSelectResellerEvent)="applyFilter()"></app-header>
 
 <div class="body">
-    <p-card>
-        <p-table [value]="salesFiltered" responsiveLayout="stack">
-            <ng-template pTemplate="caption">
-                <div class="flex align-items-center justify-content-between">
-                    <span>Itens Vendidos</span>
-                </div>
-            </ng-template>
-            <ng-template pTemplate="header">
-                <tr>
-                  <th>Referência</th>
-                  <th>Descrição</th>
-                  <th>Cliente</th>
-                  <th>Valor</th>
-                  <th>Quantidade</th>
-                  <th>Data</th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-sale>
-                <tr>
-                    <td><span class="p-column-title">Referência</span>{{sale.reference}}</td>
-                    <td><span class="p-column-title">Descrição</span>{{sale.description}}</td>
-                    <td><span class="p-column-title">Cliente</span>{{sale.customerName}}</td>
-                    <td><span class="p-column-title">Valor</span>{{sale.sellPrice | currency: 'BRL':'R$' }}</td>
-                    <td><span class="p-column-title">Quantidade</span>{{sale.amount}}</td>
-                    <td><span class="p-column-title">Data</span>{{sale.date | date: 'dd/MM/yyyy'}}</td>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="summary">
-                <div class="flex align-items-center justify-content-between">
-                    Total de {{salesFiltered ? salesFiltered.length : 0 }} produtos.
-                </div>
-            </ng-template>
-        </p-table>
-    </p-card>
+  <p-card>
+    <p-table [value]="salesFiltered" responsiveLayout="stack">
+      <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between">
+          <span>Itens Vendidos</span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Referência</th>
+          <th>Descrição</th>
+          <th>Cliente</th>
+          <th>Valor</th>
+          <th>Quantidade</th>
+          <th>Data</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-sale>
+        <tr>
+          <td><span class="p-column-title">Referência</span>{{sale.reference}}</td>
+          <td><span class="p-column-title">Descrição</span>{{sale.description}}</td>
+          <td><span class="p-column-title">Cliente</span>{{sale.customerName}}</td>
+          <td><span class="p-column-title">Valor</span>{{sale.sellPrice | currency: 'BRL':'R$' }}</td>
+          <td><span class="p-column-title">Quantidade</span>{{sale.amount}}</td>
+          <td><span class="p-column-title">Data</span>{{sale.date | date: 'dd/MM/yyyy'}}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">
+          Total de {{salesFiltered ? salesFiltered.length : 0 }} produtos.
+        </div>
+      </ng-template>
+    </p-table>
+  </p-card>
 </div>
